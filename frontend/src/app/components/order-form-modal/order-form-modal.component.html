@@ -1,0 +1,115 @@
+@if (visible) {
+  <div class="modal-container">
+    <div class="modal-overlay" (click)="onClose()"></div>
+    <div class="modal-card">
+
+        <div class="modal-header">
+          <h2 class="modal-titulo">Confirmar pedido</h2>
+          <button class="close-btn" (click)="onClose()" aria-label="Cerrar">×</button>
+        </div>
+
+        <div class="resumen-section">
+          <p class="resumen-label">Restaurante: <strong>{{ cartService.restaurante()?.nombre }}</strong></p>
+          <p class="resumen-label">Items: <strong>{{ cartService.items().length }}</strong> producto(s) — Total: <strong>${{ cartService.total().toLocaleString('es-CO') }} COP</strong></p>
+        </div>
+
+        <form [formGroup]="form" class="form-body" (ngSubmit)="onConfirmar()">
+
+          <div class="favoritos-section">
+            <label class="field-label">📍 Entregar en</label>
+            <div class="favoritos-btns">
+              @for (fav of mockUser.favoritos; track fav.alias) {
+                <button
+                  type="button"
+                  class="btn-favorito"
+                  [class.btn-favorito--active]="favoritoSeleccionado().alias === fav.alias"
+                  (click)="onFavoritoChange(fav.alias)">
+                  {{ fav.alias }}
+                </button>
+              }
+            </div>
+            <p class="favorito-dir">{{ favoritoSeleccionado().direccion }}</p>
+          </div>
+
+          <div class="field">
+            <label class="field-label" for="nombre">Nombre completo *</label>
+            <input
+              id="nombre"
+              type="text"
+              class="field-input"
+              [class.field-input--error]="isInvalid('nombre')"
+              formControlName="nombre"
+              placeholder="Ej: Juan Pérez"
+              autocomplete="name">
+            @if (isInvalid('nombre')) {
+              <span class="field-error">El nombre es obligatorio (mínimo 2 caracteres)</span>
+            }
+          </div>
+
+          <div class="field">
+            <label class="field-label" for="telefono">Teléfono *</label>
+            <input
+              id="telefono"
+              type="tel"
+              class="field-input"
+              [class.field-input--error]="isInvalid('telefono')"
+              formControlName="telefono"
+              placeholder="Ej: 3001234567"
+              inputmode="numeric"
+              autocomplete="tel">
+            @if (isInvalid('telefono')) {
+              <span class="field-error">Solo números, mínimo 7 dígitos</span>
+            }
+          </div>
+
+          <div class="coords-row">
+            <div class="field">
+              <label class="field-label" for="ubicacionX">Coordenada X *</label>
+              <input
+                id="ubicacionX"
+                type="number"
+                step="any"
+                class="field-input"
+                [class.field-input--error]="isInvalid('ubicacionX')"
+                formControlName="ubicacionX"
+                placeholder="Ej: -74.12">
+              @if (isInvalid('ubicacionX')) {
+                <span class="field-error">Se requiere un valor numérico</span>
+              }
+            </div>
+
+            <div class="field">
+              <label class="field-label" for="ubicacionY">Coordenada Y *</label>
+              <input
+                id="ubicacionY"
+                type="number"
+                step="any"
+                class="field-input"
+                [class.field-input--error]="isInvalid('ubicacionY')"
+                formControlName="ubicacionY"
+                placeholder="Ej: 4.62">
+              @if (isInvalid('ubicacionY')) {
+                <span class="field-error">Se requiere un valor numérico</span>
+              }
+            </div>
+          </div>
+
+          @if (error()) {
+            <div class="error-banner">{{ error() }}</div>
+          }
+
+          <button
+            type="submit"
+            class="btn-confirmar"
+            [disabled]="enviando()">
+            @if (enviando()) {
+              Enviando...
+            } @else {
+              Confirmar pedido
+            }
+          </button>
+
+        </form>
+    </div>
+  </div>
+}

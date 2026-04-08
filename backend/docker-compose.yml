@@ -1,0 +1,67 @@
+version: "3.9"
+
+services:
+
+  postgres:
+    image: postgres:15
+    container_name: foodtech_postgres
+    environment:
+      POSTGRES_USER: foodtech_user
+      POSTGRES_PASSWORD: foodtech_pass
+      POSTGRES_DB: foodtech_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./init-db:/docker-entrypoint-initdb.d
+    networks:
+      - foodtech-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U foodtech_user -d foodtech_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  delivery-service:
+    build:
+      context: ./delivery-service
+      dockerfile: Dockerfile
+    container_name: foodtech_delivery
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/foodtech_db
+      SPRING_DATASOURCE_USERNAME: foodtech_user
+      SPRING_DATASOURCE_PASSWORD: foodtech_pass
+    ports:
+      - "8080:8080"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - foodtech-network
+
+  order-service:
+    build:
+      context: ./order-service
+      dockerfile: Dockerfile
+    container_name: foodtech_order
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/foodtech_orders
+      SPRING_DATASOURCE_USERNAME: foodtech_user
+      SPRING_DATASOURCE_PASSWORD: foodtech_pass
+      DELIVERY_SERVICE_URL: http://delivery-service:8080
+    ports:
+      - "8081:8081"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      delivery-service:
+        condition: service_started
+    networks:
+      - foodtech-network
+
+networks:
+  foodtech-network:
+    driver: bridge
+
+volumes:
+  postgres_data:

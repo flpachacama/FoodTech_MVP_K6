@@ -1,0 +1,146 @@
+name: CI - Backend Quality Gate
+
+on:
+  pull_request:
+    branches:
+      - main
+      - develop
+      - "feature/**"
+  push:
+    branches:
+      - main
+      - develop
+      - "feature/**"
+
+jobs:
+
+  test-delivery-service:
+    name: "Tests · delivery-service"
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout código
+        uses: actions/checkout@v4
+
+      - name: Configurar Java 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: "17"
+          distribution: "temurin"
+          cache: maven
+
+      - name: Ejecutar tests con cobertura JaCoCo
+        working-directory: backend/delivery-service
+        run: mvn verify --batch-mode
+
+      - name: Publicar reporte JaCoCo
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: jacoco-delivery-service
+          path: backend/delivery-service/target/site/jacoco/
+
+  test-order-service:
+    name: "Tests · order-service"
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout código
+        uses: actions/checkout@v4
+
+      - name: Configurar Java 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: "17"
+          distribution: "temurin"
+          cache: maven
+
+      - name: Ejecutar tests con cobertura JaCoCo
+        working-directory: backend/order-service
+        run: mvn verify --batch-mode
+
+      - name: Publicar reporte JaCoCo
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: jacoco-order-service
+          path: backend/order-service/target/site/jacoco/
+
+  build-docker:
+    name: "Docker Build · backend"
+    runs-on: ubuntu-latest
+    needs:
+      - test-delivery-service
+      - test-order-service
+    if: github.event_name == 'push'
+
+    steps:
+      - name: Checkout código
+        uses: actions/checkout@v4
+
+      - name: Configurar Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build delivery-service image
+        uses: docker/build-push-action@v5
+        with:
+          context: backend/delivery-service
+          file: backend/delivery-service/Dockerfile
+          push: false
+          tags: foodtech/delivery-service:${{ github.sha }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Build order-service image
+        uses: docker/build-push-action@v5
+        with:
+          context: backend/order-service
+          file: backend/order-service/Dockerfile
+          push: false
+          tags: foodtech/order-service:${{ github.sha }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Levantar stack con Docker Compose
+        working-directory: backend
+        run: |
+          docker compose up -d --build
+          echo "Esperando a que los servicios estén listos..."
+          sleep 25
+          docker compose ps
+          docker compose logs --tail=30
+
+      - name: Verificar servicios levantados
+        working-directory: backend
+        run: |
+          echo "→ Verificando delivery-service (puerto 8080)..."
+          for i in $(seq 1 10); do
+            status=$(curl -o /dev/null -w "%{http_code}" -s http://localhost:8080/ || echo "000")
+            if echo "$status" | grep -qE "^[2-4][0-9][0-9]$"; then
+              echo "delivery-service activo (HTTP $status)"
+              break
+            fi
+            echo "Intento $i/10 - HTTP $status"
+            sleep 5
+          done
+
+          echo "→ Verificando order-service (puerto 8081)..."
+          for i in $(seq 1 10); do
+            status=$(curl -o /dev/null -w "%{http_code}" -s http://localhost:8081/ || echo "000")
+            if echo "$status" | grep -qE "^[2-4][0-9][0-9]$"; then
+              echo "order-service activo (HTTP $status)"
+              break
+            fi
+            echo "Intento $i/10 - HTTP $status"
+            sleep 5
+          done
+
+      - name: Mostrar logs finales
+        if: always()
+        working-directory: backend
+        run: docker compose logs --tail=50
+
+      - name: Apagar stack
+        if: always()
+        working-directory: backend
+        run: docker compose down -v

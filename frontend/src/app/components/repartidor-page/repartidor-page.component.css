@@ -1,0 +1,224 @@
+.page {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 24px 16px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+.page-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.page-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #1a1a2e;
+  margin: 0;
+}
+
+.btn-back {
+  display: inline-flex;
+  align-items: center;
+  padding: 8px 16px;
+  background: #f0f0f0;
+  border-radius: 8px;
+  color: #333;
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: background 0.2s;
+  white-space: nowrap;
+}
+
+.btn-back:hover {
+  background: #e0e0e0;
+}
+
+/* Loader */
+.loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 40px;
+  color: #666;
+}
+
+.loading-spinner {
+  width: 32px;
+  height: 32px;
+  border: 3px solid #e0e0e0;
+  border-top-color: #e63946;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Cards */
+.card {
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  padding: 20px;
+  margin-bottom: 16px;
+}
+
+/* Repartidor card */
+.card-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.vehiculo-emoji {
+  font-size: 2.2rem;
+}
+
+.repartidor-info {
+  flex: 1;
+}
+
+.repartidor-nombre {
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin: 0 0 4px;
+  color: #1a1a2e;
+}
+
+.repartidor-vehiculo {
+  font-size: 0.85rem;
+  color: #888;
+  margin: 0;
+  text-transform: capitalize;
+}
+
+/* Badges */
+.badge {
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.badge--activo       { background: #d4edda; color: #155724; }
+.badge--en_entrega   { background: #fff3cd; color: #856404; }
+.badge--inactivo     { background: #e2e3e5; color: #495057; }
+
+/* Pedido card */
+.card-title {
+  font-size: 1rem;
+  font-weight: 700;
+  margin: 0 0 16px;
+  color: #1a1a2e;
+}
+
+.pedido-info {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.info-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  border-bottom: 1px solid #f0f0f0;
+  padding-bottom: 10px;
+}
+
+.info-row:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.info-label {
+  font-size: 0.85rem;
+  color: #888;
+  font-weight: 500;
+  min-width: 120px;
+}
+
+.info-value {
+  font-size: 0.95rem;
+  color: #1a1a2e;
+  font-weight: 500;
+  text-align: right;
+}
+
+.coords {
+  font-family: monospace;
+  font-size: 0.85rem;
+}
+
+.tiempo-row {
+  background: #fff3cd;
+  margin: 0 -20px;
+  padding: 12px 20px;
+  border-radius: 0 0 12px 12px;
+  border-bottom: none;
+}
+
+.tiempo-value {
+  font-size: 1.3rem;
+  font-weight: 800;
+  color: #e63946;
+}
+
+/* Sin pedido */
+.sin-pedido-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 40px 20px;
+  text-align: center;
+}
+
+.sin-pedido-icon {
+  font-size: 3rem;
+}
+
+.sin-pedido-texto {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #333;
+  margin: 0;
+}
+
+.sin-pedido-sub {
+  font-size: 0.85rem;
+  color: #999;
+  margin: 0;
+}
+
+/* Botón entregar */
+.btn-entregar {
+  width: 100%;
+  padding: 0.875rem;
+  background-color: #16a34a;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 1rem;
+  transition: background-color 0.2s;
+}
+
+.btn-entregar:hover:not(:disabled) {
+  background-color: #15803d;
+}
+
+.btn-entregar:disabled {
+  background-color: #86efac;
+  cursor: not-allowed;
+}
