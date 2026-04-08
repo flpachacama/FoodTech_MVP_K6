@@ -80,3 +80,24 @@ FoodTech_MVP/
 - [Backend - Order Service](backend/order-service/README.md)
 - [Frontend - Angular](frontend/README.md)
 - [Casos de prueba Postman](docs/POSTMAN_TEST_CASES.md)
+- [Performance Testing con k6](performance/README.md)
+
+---
+
+## ⚡ Performance Testing (k6)
+
+Se agregó una suite de pruebas de rendimiento en `performance/` con escenarios:
+- smoke
+- load
+- stress
+
+Comandos rápidos:
+
+```bash
+# Requiere k6 instalado
+npm run perf:smoke
+npm run perf:load
+npm run perf:stress
+```
+
+Para ejecución con Docker y configuración de entornos, revisa `performance/README.md`.

@@ -8,3 +8,4 @@
 *.class
 .gitkeep
 **/node_modules/
+performance/reports/*.json

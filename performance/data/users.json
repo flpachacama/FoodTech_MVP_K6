@@ -1,0 +1,10 @@
+[
+  {
+    "username": "qa.user1@foodtech.local",
+    "password": "NoStrongPAssword123!"
+  },
+  {
+    "username": "qa.user2@foodtech.local",
+    "password": "StrongPassword123!"
+  }
+]

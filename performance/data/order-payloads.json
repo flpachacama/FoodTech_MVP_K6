@@ -1,0 +1,36 @@
+[
+  {
+    "restauranteId": 1,
+    "restauranteX": -74.0627,
+    "restauranteY": 4.6482,
+    "clima": "SOLEADO",
+    "clienteNombre": "Usuario Perf 01",
+    "clienteTelefono": "3000000001",
+    "clienteCoordenadasX": -74.0637,
+    "clienteCoordenadasY": 4.6482,
+    "productos": [
+      {
+        "id": 1,
+        "nombre": "Hamburguesa Clasica",
+        "precio": 18000
+      }
+    ]
+  },
+  {
+    "restauranteId": 2,
+    "restauranteX": -74.0544,
+    "restauranteY": 4.6769,
+    "clima": "NUBLADO",
+    "clienteNombre": "Usuario Perf 02",
+    "clienteTelefono": "3000000002",
+    "clienteCoordenadasX": -74.0581,
+    "clienteCoordenadasY": 4.6774,
+    "productos": [
+      {
+        "id": 2,
+        "nombre": "Pizza Margarita",
+        "precio": 26000
+      }
+    ]
+  }
+]
