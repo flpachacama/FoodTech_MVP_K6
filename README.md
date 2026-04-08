@@ -98,6 +98,48 @@ Suite completa de pruebas de rendimiento con arquitectura SOLID:
 - ✓ Validaciones de negocio (clima, repartidores, distancia)
 - ✓ Thresholds basados en TEST_PLAN.md
 - ✓ Reportes JSON e interpretación automática
+
+**Ejecución**:
+```powershell
+# Scripts locales
+npm run perf:smoke
+npm run perf:load
+npm run perf:stress
+npm run perf:spike
+```
+
+---
+
+## 📊 Monitoreo en tiempo real (Prometheus + Grafana)
+
+Integración de k6 con Prometheus y Grafana para visualizar métricas en vivo:
+
+**Servicios**:
+- 🔍 Prometheus: http://localhost:9090 (base de datos de métricas)
+- 📈 Grafana: http://localhost:3000 (visualización)
+
+**Flujo rápido**:
+
+```powershell
+# 1. Levantar Prometheus + Grafana
+npm run monitoring:start
+
+# 2. Ejecutar k6 con Prometheus
+npm run perf:smoke:prom
+npm run perf:load:prom
+npm run perf:stress:prom
+npm run perf:spike:prom
+
+# 3. Ver en Grafana (http://localhost:3000)
+#    - Usuario: admin
+#    - Contraseña: admin
+#    - Importar dashboard: ID 2587 (k6 oficial)
+
+# 4. Detener servicios
+npm run monitoring:stop
+```
+
+**Documentación**: Ver [monitoring/QUICKSTART.md](monitoring/QUICKSTART.md) (guía rápida) o [monitoring/README.md](monitoring/README.md) (completa)
 - ✓ Ejecución local y Docker
 
 **Quick start**:
