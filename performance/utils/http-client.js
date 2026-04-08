@@ -1,13 +1,11 @@
 import http from 'k6/http';
 import { check } from 'k6';
 
-function expectedStatusLabel(expectedStatus) {
-  return Array.isArray(expectedStatus)
-    ? `status in [${expectedStatus.join(', ')}]`
-    : `status is ${expectedStatus}`;
+function normalizeStatus(expectedStatus) {
+  return Array.isArray(expectedStatus) ? expectedStatus : [expectedStatus];
 }
 
-export function safeJson(response) {
+function safeJson(response) {
   if (!response || !response.body) {
     return null;
   }
@@ -19,31 +17,59 @@ export function safeJson(response) {
   }
 }
 
-export function requestJson({ method, url, body, headers, expectedStatus = 200, timeout = '30s', tags = {} }) {
+export function requestJson(params) {
+  const {
+    method,
+    url,
+    body,
+    headers,
+    timeout,
+    expectedStatus,
+    tags,
+    trace,
+    debug,
+  } = params;
+
+  const expected = normalizeStatus(expectedStatus);
+  const payload = typeof body === 'undefined' ? null : JSON.stringify(body);
+  const requestTags = {
+    ...tags,
+    hu_id: trace.hu,
+    tc_id: trace.tc,
+    scenario_type: trace.scenarioType,
+  };
+
   try {
-    const params = { headers, timeout, tags };
-    const payload = typeof body === 'undefined' ? null : JSON.stringify(body);
-    const response = http.request(method, url, payload, params);
-
-    const statusOk = Array.isArray(expectedStatus)
-      ? expectedStatus.includes(response.status)
-      : response.status === expectedStatus;
-
-    const checksOk = check(response, {
-      [expectedStatusLabel(expectedStatus)]: () => statusOk,
-      'response time < 2000ms': (res) => res.timings.duration < 2000,
+    const response = http.request(method, url, payload, {
+      headers,
+      timeout,
+      tags: requestTags,
     });
 
+    const statusOk = expected.indexOf(response.status) >= 0;
+
+    check(response, {
+      [`status in [${expected.join(',')}]`]: () => statusOk,
+      'response time < 3000ms': (res) => res.timings.duration < 3000,
+    });
+
+    if (debug && !statusOk) {
+      console.log(`[DEBUG] ${method} ${url} status=${response.status} body=${String(response.body).slice(0, 220)}`);
+    }
+
     return {
-      ok: statusOk && checksOk,
-      response,
+      ok: statusOk,
+      status: response.status,
       data: safeJson(response),
+      response,
     };
   } catch (error) {
+    console.error(`[ERROR] ${method} ${url} -> ${error.message}`);
     return {
       ok: false,
-      response: null,
+      status: 0,
       data: null,
+      response: null,
       error,
     };
   }

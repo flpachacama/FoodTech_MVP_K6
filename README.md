@@ -86,6 +86,42 @@ FoodTech_MVP/
 
 ## ⚡ Performance Testing (k6)
 
+Suite completa de pruebas de rendimiento con arquitectura SOLID:
+
+**Escenarios**:
+- 🚦 Smoke: Validación rápida (2 min)
+- 📊 Load: Línea base bajo carga nominal (8 min)
+- 💥 Stress: Límites del sistema (10 min)
+
+**Características**:
+- ✓ Arquitectura hexagonal y principios SOLID
+- ✓ Validaciones de negocio (clima, repartidores, distancia)
+- ✓ Thresholds basados en TEST_PLAN.md
+- ✓ Reportes JSON e interpretación automática
+- ✓ Ejecución local y Docker
+
+**Quick start**:
+```bash
+cd performance
+
+# Con k6 instalado
+npm run perf:smoke    # O: .\run-local.cmd smoke.test.js
+npm run perf:load     # O: .\run-local.cmd load.test.js
+npm run perf:stress   # O: .\run-local.cmd stress.test.js
+
+# Con Docker
+.\run-docker.cmd smoke.test.js
+```
+
+**Documentación**:
+- [`performance/README.md`](performance/README.md) - Guía de ejecución y thresholds
+- [`performance/ARCHITECTURE.md`](performance/ARCHITECTURE.md) - Diseño, SOLID, patrones
+- [`performance/DEBUGGING.md`](performance/DEBUGGING.md) - Troubleshooting y checklist
+
+---
+
+## 📈 Performance Testing (k6)
+
 Se agregó una suite de pruebas de rendimiento en `performance/` con escenarios:
 - smoke
 - load

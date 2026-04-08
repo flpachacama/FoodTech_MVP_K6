@@ -1,8 +1,9 @@
 {
   "scripts": {
-    "perf:smoke": "k6 run --env TEST_ENV=dev performance/tests/smoke.test.js",
-    "perf:load": "k6 run --env TEST_ENV=dev performance/tests/load.test.js",
-    "perf:stress": "k6 run --env TEST_ENV=dev performance/tests/stress.test.js"
+    "perf:smoke": "k6 run --env TEST_ENV=dev --env REPORT_DIR=performance/reports performance/tests/smoke.test.js",
+    "perf:load": "k6 run --env TEST_ENV=dev --env REPORT_DIR=performance/reports performance/tests/load.test.js",
+    "perf:stress": "k6 run --env TEST_ENV=dev --env REPORT_DIR=performance/reports performance/tests/stress.test.js",
+    "perf:spike": "k6 run --env TEST_ENV=dev --env REPORT_DIR=performance/reports performance/tests/spike.test.js"
   },
   "dependencies": {
     "lucide-angular": "^1.0.0"
