@@ -14,6 +14,9 @@ set PROMETHEUS_URL=http://localhost:9090
 set TEST_FILE=%1
 set SCRIPT_DIR=%~dp0
 for %%I in ("%SCRIPT_DIR%..\..") do set PROJECT_ROOT=%%~fI
+set K6_PROMETHEUS_RW_PUSH_INTERVAL=15s
+set K6_PROMETHEUS_RW_HTTP_TIMEOUT=60s
+set K6_PROMETHEUS_RW_TREND_STATS=p(95),p(99),avg,max
 
 if "!TEST_FILE!"=="" (
   set TEST_FILE=smoke.test.js
@@ -28,6 +31,8 @@ echo Configuracion:
 echo    Prometheus URL: !PROMETHEUS_URL!
 echo    Test file:      !TEST_FILE!
 echo    Directorio:     !PROJECT_ROOT!
+echo    Push interval:  !K6_PROMETHEUS_RW_PUSH_INTERVAL!
+echo    HTTP timeout:   !K6_PROMETHEUS_RW_HTTP_TIMEOUT!
 echo.
 
 REM Verificar que Prometheus este disponible
@@ -76,6 +81,9 @@ echo.
 k6 run ^
   --env TEST_ENV=dev ^
   --env REPORT_DIR=performance\reports ^
+  --env K6_PROMETHEUS_RW_PUSH_INTERVAL=!K6_PROMETHEUS_RW_PUSH_INTERVAL! ^
+  --env K6_PROMETHEUS_RW_HTTP_TIMEOUT=!K6_PROMETHEUS_RW_HTTP_TIMEOUT! ^
+  --env K6_PROMETHEUS_RW_TREND_STATS=!K6_PROMETHEUS_RW_TREND_STATS! ^
   --out experimental-prometheus-rw ^
   "performance\tests\!TEST_FILE!"
 
