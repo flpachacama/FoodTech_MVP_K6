@@ -1,0 +1,37 @@
+[
+  {
+    "flowId": "catalog_visibility",
+    "priority": "ALTO",
+    "userStory": "HU10",
+    "testCases": ["TC-031", "TC-032"],
+    "description": "Visualizacion de restaurantes y repartidores para iniciar pedido"
+  },
+  {
+    "flowId": "checkout_assignment_happy",
+    "priority": "CRITICO",
+    "userStory": "HU8-HU5",
+    "testCases": ["TC-024", "TC-013"],
+    "description": "Confirmacion de pedido y asignacion automatica exitosa"
+  },
+  {
+    "flowId": "checkout_pending_rain_hard",
+    "priority": "CRITICO",
+    "userStory": "HU3-HU5-HU8",
+    "testCases": ["TC-007", "TC-016", "TC-025"],
+    "description": "Clima adverso con riesgo de falta de candidatos"
+  },
+  {
+    "flowId": "cancel_and_release_driver",
+    "priority": "CRITICO",
+    "userStory": "HU9-HU6",
+    "testCases": ["TC-029", "TC-019"],
+    "description": "Cancelacion de pedido y liberacion de repartidor"
+  },
+  {
+    "flowId": "cancel_before_assignment",
+    "priority": "CRITICO",
+    "userStory": "HU9",
+    "testCases": ["TC-028"],
+    "description": "Cancelacion de pedido activo antes o durante asignacion"
+  }
+]

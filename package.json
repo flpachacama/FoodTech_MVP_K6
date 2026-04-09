@@ -1,0 +1,18 @@
+{
+  "scripts": {
+    "perf:smoke": "k6 run --env TEST_ENV=dev --env REPORT_DIR=performance/reports performance/tests/smoke.test.js",
+    "perf:load": "k6 run --env TEST_ENV=dev --env REPORT_DIR=performance/reports performance/tests/load.test.js",
+    "perf:stress": "k6 run --env TEST_ENV=dev --env REPORT_DIR=performance/reports performance/tests/stress.test.js",
+    "perf:spike": "k6 run --env TEST_ENV=dev --env REPORT_DIR=performance/reports performance/tests/spike.test.js",
+    "perf:smoke:prom": "k6 run --env TEST_ENV=dev --env REPORT_DIR=performance/reports --env K6_PROMETHEUS_RW_PUSH_INTERVAL=15s --env K6_PROMETHEUS_RW_HTTP_TIMEOUT=60s --env K6_PROMETHEUS_RW_TREND_STATS=p(95),p(99),avg,max --out experimental-prometheus-rw performance/tests/smoke.test.js",
+    "perf:load:prom": "k6 run --env TEST_ENV=dev --env REPORT_DIR=performance/reports --env K6_PROMETHEUS_RW_PUSH_INTERVAL=15s --env K6_PROMETHEUS_RW_HTTP_TIMEOUT=60s --env K6_PROMETHEUS_RW_TREND_STATS=p(95),p(99),avg,max --out experimental-prometheus-rw performance/tests/load.test.js",
+    "perf:stress:prom": "k6 run --env TEST_ENV=dev --env REPORT_DIR=performance/reports --env K6_PROMETHEUS_RW_PUSH_INTERVAL=15s --env K6_PROMETHEUS_RW_HTTP_TIMEOUT=60s --env K6_PROMETHEUS_RW_TREND_STATS=p(95),p(99),avg,max --out experimental-prometheus-rw performance/tests/stress.test.js",
+    "perf:spike:prom": "k6 run --env TEST_ENV=dev --env REPORT_DIR=performance/reports --env K6_PROMETHEUS_RW_PUSH_INTERVAL=15s --env K6_PROMETHEUS_RW_HTTP_TIMEOUT=60s --env K6_PROMETHEUS_RW_TREND_STATS=p(95),p(99),avg,max --out experimental-prometheus-rw performance/tests/spike.test.js",
+    "monitoring:start": "cd monitoring && docker-compose up -d",
+    "monitoring:stop": "cd monitoring && docker-compose down",
+    "monitoring:logs": "cd monitoring && docker-compose logs -f"
+  },
+  "dependencies": {
+    "lucide-angular": "^1.0.0"
+  }
+}

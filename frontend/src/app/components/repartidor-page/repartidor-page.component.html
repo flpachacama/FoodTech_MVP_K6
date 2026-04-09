@@ -1,0 +1,80 @@
+<div class="page">
+
+  <div class="page-header">
+    <h1 class="page-title">Foodtechs </h1>
+  </div>
+
+  @if (isLoading()) {
+    <div class="loading">
+      <span class="loading-spinner"></span>
+      <p>Cargando información...</p>
+    </div>
+  }
+
+  @if (!isLoading() && repartidor()) {
+    <div class="card repartidor-card">
+      <div class="card-header">
+        <span class="vehiculo-emoji">{{ vehiculoEmoji[repartidor()!.vehiculo] ?? '🛵' }}</span>
+        <div class="repartidor-info">
+          <h2 class="repartidor-nombre">{{ repartidor()!.nombre }}</h2>
+          <p class="repartidor-vehiculo">{{ repartidor()!.vehiculo }}</p>
+        </div>
+        <span class="badge" [class]="'badge--' + repartidor()!.estado.toLowerCase()">
+          {{ repartidor()!.estado }}
+        </span>
+      </div>
+    </div>
+  }
+
+  @if (!isLoading() && pedidoActivo()) {
+    <div class="card pedido-card">
+      <h3 class="card-title">📦 Pedido asignado</h3>
+
+      <div class="pedido-info">
+        <div class="info-row">
+          <span class="info-label">Cliente</span>
+          <span class="info-value">{{ pedidoActivo()!.clienteNombre }}</span>
+        </div>
+        @if (pedidoActivo()!.clienteTelefono) {
+          <div class="info-row">
+            <span class="info-label">Teléfono</span>
+            <span class="info-value">{{ pedidoActivo()!.clienteTelefono }}</span>
+          </div>
+        }
+        <div class="info-row">
+          <span class="info-label">Ubicación</span>
+          <span class="info-value coords">
+            X: {{ pedidoActivo()!.clienteCoordenadasX | number:'1.4-4' }} &nbsp;
+            Y: {{ pedidoActivo()!.clienteCoordenadasY | number:'1.4-4' }}
+          </span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">Estado pedido</span>
+          <span class="info-value">{{ pedidoActivo()!.estado }}</span>
+        </div>
+        @if (pedidoActivo()!.tiempoEstimado) {
+          <div class="info-row tiempo-row">
+            <span class="info-label">⏱ Tiempo estimado</span>
+            <span class="info-value tiempo-value">{{ pedidoActivo()!.tiempoEstimado }} min</span>
+          </div>
+        }
+      </div>
+
+      <button
+        class="btn-entregar"
+        (click)="marcarEntregado()"
+        [disabled]="isDelivering()">
+        {{ isDelivering() ? 'Procesando...' : 'Marcar como Entregado' }}
+      </button>
+    </div>
+  }
+
+  @if (!isLoading() && !pedidoActivo()) {
+    <div class="card sin-pedido-card">
+      <span class="sin-pedido-icon">🛵</span>
+      <p class="sin-pedido-texto">No tienes pedidos asignados en este momento.</p>
+      <p class="sin-pedido-sub">Espera a que el sistema te asigne uno.</p>
+    </div>
+  }
+
+</div>

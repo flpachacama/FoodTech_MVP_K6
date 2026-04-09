@@ -1,0 +1,71 @@
+[
+  {
+    "id": "payload-soledado-happy",
+    "trace": {
+      "hu": "HU8-HU5",
+      "tc": "TC-024-TC-013"
+    },
+    "restauranteId": 1,
+    "restauranteX": -74.0627,
+    "restauranteY": 4.6482,
+    "clima": "SOLEADO",
+    "clienteId": 101,
+    "clienteNombre": "UsuarioPerfHappy",
+    "clienteTelefono": "3000001001",
+    "clienteCoordenadasX": -74.0637,
+    "clienteCoordenadasY": 4.6482,
+    "productos": [
+      {
+        "id": 1,
+        "nombre": "Hamburguesa Clasica",
+        "precio": 18000
+      }
+    ]
+  },
+  {
+    "id": "payload-lluvia-suave",
+    "trace": {
+      "hu": "HU3-HU8",
+      "tc": "TC-008-TC-024"
+    },
+    "restauranteId": 2,
+    "restauranteX": -74.0544,
+    "restauranteY": 4.6769,
+    "clima": "LLUVIA_SUAVE",
+    "clienteId": 102,
+    "clienteNombre": "UsuarioPerfRainSoft",
+    "clienteTelefono": "3000001002",
+    "clienteCoordenadasX": -74.0581,
+    "clienteCoordenadasY": 4.6774,
+    "productos": [
+      {
+        "id": 2,
+        "nombre": "Pizza Margarita",
+        "precio": 26000
+      }
+    ]
+  },
+  {
+    "id": "payload-lluvia-fuerte",
+    "trace": {
+      "hu": "HU3-HU5",
+      "tc": "TC-007-TC-016"
+    },
+    "restauranteId": 3,
+    "restauranteX": -74.0711,
+    "restauranteY": 4.6562,
+    "clima": "LLUVIA_FUERTE",
+    "clienteId": 103,
+    "clienteNombre": "UsuarioPerfRainHard",
+    "clienteTelefono": "3000001003",
+    "clienteCoordenadasX": -74.0688,
+    "clienteCoordenadasY": 4.6591,
+    "productos": [
+      {
+        "id": 3,
+        "nombre": "Sushi Clasico",
+        "precio": 30000
+      }
+    ]
+  }
+]

@@ -1,0 +1,8 @@
+.idea/workspace.xml~
+.idea/workspace.xml
+**/target/
+**/.mvn/
+*.class
+.gitkeep
+**/node_modules/
+performance/reports/*.json

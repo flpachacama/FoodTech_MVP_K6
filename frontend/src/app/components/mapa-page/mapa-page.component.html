@@ -1,0 +1,95 @@
+﻿<!-- Header -->
+<header class="header">
+  <div class="header-content">
+    <div class="containerLogo">
+        <img src="/logo.png" alt="FoodTech Logo" class="logo" />
+    </div>
+    <div class="containerSidebar">
+        <aside class="sidebar">
+    <h2 class="sidebar-title">Restaurantes</h2>
+    <ul class="restaurant-list">
+      @for (r of restaurantes(); track r.id) {
+        <li class="restaurant-item" (click)="onRestauranteMapFocus(r)"
+            [class.restaurant-item--active]="mapRestaurante()?.id === r.id">
+          <span class="restaurant-icon material-icons">restaurant</span>
+          <div class="restaurant-info">
+            <span class="restaurant-name">{{ r.nombre }}</span>
+            <span class="restaurant-menu-count">{{ r.menu.length }} productos</span>
+          </div>
+          <button class="btn-ver-menu" (click)="$event.stopPropagation(); onOpenMenu(r)">
+            Ver menú
+          </button>
+        </li>
+      }
+      @if (restaurantes().length === 0) {
+        <li class="restaurant-item restaurant-item--empty">Cargando restaurantes...</li>
+      }
+    </ul>
+  </aside>
+    </div>
+  </div>
+</header>
+
+<!-- Desktop 3-column layout -->
+<div class="layout">
+  <!-- Center: Map -->
+  <main class="map-area">
+    <app-mapa
+      [restauranteInput]="mapRestaurante()"
+      (restauranteSelected)="onOpenMenu($event)">
+    </app-mapa>
+  </main>
+
+  <!-- Right: empty space -->
+  <div class="right-panel"></div>
+</div>
+
+<!-- Mobile FAB -->
+<button class="fab" (click)="toggleSidebar()" aria-label="Ver restaurantes">
+  <span class="material-icons">storefront</span>
+</button>
+
+<!-- Mobile sidebar overlay -->
+@if (sidebarOpen()) {
+  <div class="mobile-overlay" (click)="closeSidebar()"></div>
+  <aside class="mobile-sidebar" [class.mobile-sidebar--open]="sidebarOpen()">
+    <div class="mobile-sidebar-header">
+      <h2 class="sidebar-title">Restaurantes</h2>
+      <button class="mobile-close-btn" (click)="closeSidebar()" aria-label="Cerrar">×</button>
+    </div>
+    <ul class="restaurant-list">
+      @for (r of restaurantes(); track r.id) {
+        <li class="restaurant-item" (click)="onRestauranteMapFocus(r); closeSidebar()"
+            [class.restaurant-item--active]="mapRestaurante()?.id === r.id">
+          <span class="restaurant-icon material-icons">restaurant</span>
+          <div class="restaurant-info">
+            <span class="restaurant-name">{{ r.nombre }}</span>
+            <span class="restaurant-menu-count">{{ r.menu.length }} productos</span>
+          </div>
+          <button class="btn-ver-menu" (click)="$event.stopPropagation(); onOpenMenu(r)">
+            Ver menú
+          </button>
+        </li>
+      }
+      @if (restaurantes().length === 0) {
+        <li class="restaurant-item restaurant-item--empty">Cargando restaurantes...</li>
+      }
+    </ul>
+  </aside>
+}
+
+<!-- Modals (centered via fixed positioning in their own CSS) -->
+<app-menu-modal
+  [restaurante]="selectedRestaurante()"
+  [visible]="menuVisible()"
+  (close)="onCloseMenu()"
+  (pedidoRealizado)="onPedidoRealizado()">
+</app-menu-modal>
+
+<app-order-form-modal
+  [visible]="orderFormVisible()"
+  (close)="onCloseOrderForm()"
+  (pedidoConfirmado)="onPedidoConfirmado()">
+</app-order-form-modal>
+
+<app-active-orders-panel />

@@ -1,0 +1,319 @@
+﻿/* ===== HEADER ===== */
+.header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: absolute;
+  width: 100%;
+
+  /* padding: 10px 16px 6px; */
+}
+.header-content{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  width: 100%;
+}
+.containerLogo{
+  flex-direction: row;
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+}
+.containerSidebar{
+  flex-direction: row;
+
+}
+.logo {
+  width: 140px;
+  height:80px;
+}
+
+.title {
+  font-size: 1.3rem;
+  color: #fffafa;
+  margin: 4px 0 8px;
+  text-align: center;
+}
+
+/* ===== 3-COLUMN LAYOUT (Desktop) ===== */
+.layout {
+  display: flex;
+  height: calc(100vh - 100px);
+  gap: 0;
+}
+
+/* --- Sidebar --- */
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  margin: 16px;
+  border-radius: 30px;
+  height: auto;
+  position: absolute;
+  border-width: 1px;
+  border-style: solid;
+  border-color: #e5e7eb;
+  box-shadow: 10px 4px 6px rgba(255, 137, 2, .5);  
+  background: #ffffff;
+}
+
+.sidebar-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #1f2937;
+  padding: 16px 16px 12px;
+  border-bottom: 1px solid #e5e7eb;
+  margin: 0;
+}
+
+.restaurant-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  overflow-y: auto;
+  flex: 1;
+}
+
+.restaurant-list::-webkit-scrollbar {
+  width: 6px;
+}
+
+.restaurant-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px;
+  cursor: pointer;
+  border-bottom: 1px solid #f3f4f6;
+  transition: background-color 0.2s ease, transform 0.15s ease;
+}
+
+.restaurant-item:hover {
+  background-color: #fef3c7;
+  transform: translateX(4px);
+}
+
+.restaurant-item--active {
+  background-color: #fde68a;
+  border-left: 3px solid #f7a13f;
+}
+
+.restaurant-item--empty {
+  color: #9ca3af;
+  font-style: italic;
+  cursor: default;
+  justify-content: center;
+}
+
+.restaurant-item--empty:hover {
+  background-color: transparent;
+  transform: none;
+}
+
+.btn-ver-menu {
+  margin-left: auto;
+  flex-shrink: 0;
+  padding: 6px 14px;
+  background: #f7a13f;
+  color: white;
+  border: none;
+  border-radius: 20px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: opacity 0.2s ease, transform 0.15s ease;
+  white-space: nowrap;
+}
+
+.btn-ver-menu:hover {
+  opacity: 0.85;
+  transform: scale(1.05);
+}
+
+.restaurant-icon {
+  font-size: 1.5rem;
+  flex-shrink: 0;
+  color: white;
+}
+.material-icons{
+  color: white;
+}
+
+.restaurant-name {
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: #1f2937;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.restaurant-menu-count {
+  font-size: 0.8rem;
+  color: #6b7280;
+}
+
+/* --- Map area --- */
+.map-area {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  height: 100vh;
+}
+
+
+/* ===== MOBILE FAB ===== */
+.fab {
+  display: flex;
+  position: fixed;
+  top: 4%;
+  left: 24px;
+  width: 47px;
+  height: 46px;
+  border-radius: 50%;
+  background: #f7a13f;
+  border: none;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  z-index: 800;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.fab:hover {
+  transform: scale(1.1);
+  /* box-shadow: 0 6px 24px rgba(0, 0, 0, 0.4); */
+}
+
+.fab:active {
+  transform: scale(0.95);
+}
+
+.fab-icon {
+  font-size: 1.6rem;
+  line-height: 1;
+}
+
+/* ===== MOBILE SIDEBAR ===== */
+.mobile-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 850;
+  animation: fadeIn 0.2s ease-out;
+}
+
+.mobile-sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 80%;
+  max-width: 320px;
+  height: 100vh;
+  background: white;
+  z-index: 860;
+  display: flex;
+  flex-direction: column;
+  /* box-shadow: 4px 0 24px rgba(0, 0, 0, 0.2); */
+  animation: slideRight 0.3s ease-out;
+}
+
+.mobile-sidebar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 8px 0 0;
+  border-bottom: 1px solid #e5e7eb;
+  background: #f7a13f;
+}
+
+.mobile-sidebar-header .sidebar-title {
+  color: white;
+  border-bottom: none;
+}
+
+
+
+.mobile-close-btn {
+  background: transparent;
+  border: none;
+  font-size: 1.8rem;
+  color: white;
+  cursor: pointer;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  transition: background-color 0.2s ease;
+}
+
+.mobile-close-btn:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+/* ===== ANIMATIONS ===== */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideRight {
+  from { transform: translateX(-100%); }
+  to { transform: translateX(0); }
+}
+
+/* ===== DESKTOP MEDIA QUERY ===== */
+@media (min-width: 992px) {
+
+
+  .title {
+    font-size: 1.2rem;
+    margin-bottom: 6px;
+  }
+
+  .layout {
+    height: calc(100vh - 90px);
+  }
+
+  .sidebar {
+    display: flex;
+    flex-direction: column;
+    width: 400px;
+    min-width: 280px;
+    background: white;
+    border-right: 1px solid #e5e7eb;
+    border-radius:30px ;
+    overflow: hidden;
+    transition: all 0.3s ease;
+  }
+
+  .fab {
+    display: none;
+  }
+
+  .mobile-overlay,
+  .mobile-sidebar {
+    display: none !important;
+  }
+}
+
+/* ===== MOBILE ADJUSTMENTS ===== */
+@media (max-width: 991px) {
+  .layout {
+    height: calc(100vh - 90px);
+  }
+
+  .right-panel {
+    display: none;
+  }
+
+  .containerSidebar {
+    display: none;
+  }
+}

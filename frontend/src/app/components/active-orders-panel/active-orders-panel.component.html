@@ -1,0 +1,56 @@
+@if (activeOrdersService.hasOrders()) {
+  <div class="panel-wrapper" [class.panel-wrapper--expanded]="expanded()">
+
+    <button class="toggle-btn" (click)="toggle()" [attr.aria-label]="expanded() ? 'Minimizar pedidos' : 'Ver pedidos activos'">
+      <span class="toggle-icon">{{ expanded() ? '▼' : '▲' }}</span>
+      <span class="toggle-label">Pedidos activos</span>
+      @if (!expanded()) {
+        <span class="badge">{{ activeOrdersService.orders().length }}</span>
+      }
+    </button>
+
+    @if (expanded()) {
+      <div class="panel-body">
+        <h3 class="panel-title">Pedidos en curso</h3>
+
+        @for (order of activeOrdersService.orders(); track order.id) {
+          <div class="order-card">
+            <div class="order-header">
+              <span class="order-id"># {{ order.id }}</span>
+              <span class="order-estado" [class]="'estado--' + order.estado.toLowerCase()">
+                {{ order.estado }}
+              </span>
+            </div>
+
+            <div class="order-detail">
+              <span class="detail-label">Cliente:</span>
+              <span>{{ order.clienteNombre }}</span>
+            </div>
+
+            <div class="order-detail">
+              <span class="detail-label">Tiempo estimado:</span>
+              <span>{{ order.tiempoEstimado }} min</span>
+            </div>
+
+            <div class="order-productos">
+              @for (p of order.productos; track p.id) {
+                <span class="producto-tag">{{ p.nombre }}</span>
+              }
+            </div>
+
+            <div class="order-footer">
+              <span class="order-total">Total: {{ formatPrice(totalOrder(order)) }} COP</span>
+              <button
+                class="btn-cancelar"
+                (click)="onCancel(order)"
+                [disabled]="cancellingId() === order.id">
+                {{ cancellingId() === order.id ? 'Cancelando...' : 'Cancelar' }}
+              </button>
+            </div>
+          </div>
+        }
+      </div>
+    }
+
+  </div>
+}
